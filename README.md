@@ -1,4 +1,4 @@
-# helloleaflet
+# GeoJSON Leaflet
 
 following the quick start from leaflet
 
