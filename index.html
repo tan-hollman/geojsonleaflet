@@ -25,7 +25,7 @@
     <div id="map"></div>
     <script>
 
-        var map = L.map('map').setView([51.505, -0.09], 13);
+        var map = L.map('map').setView([0, 0], 2);
     
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -63,11 +63,27 @@
         map.on('click', onMapClick);
     
         fetch('map.geojson')
-            .then(response => response.json())
-            .then(data => {
-                L.geoJSON(data).addTo(map);
-            })
-            .catch(error => console.error('Error:', error));
+        .then(response => response.json())
+        .then(data => {
+            L.geoJSON(data, {
+                onEachFeature: function (feature, layer) {
+                    if (feature.properties) {
+                        layer.bindPopup(
+                            "City: " + feature.properties.City +
+                            "<br>Place: " + feature.properties.Place +
+                            "<br>Population in 1985: " + feature.properties.Pop_1985 + " million" +
+                            "<br>Population in 1990: " + feature.properties.Pop_1990 + " million" +
+                            "<br>Population in 1995: " + feature.properties.Pop_1995 + " million" +
+                            "<br>Population in 2000: " + feature.properties.Pop_2000 + " million" +
+                            "<br>Population in 2005: " + feature.properties.Pop_2005 + " million" +
+                            "<br>Population in 2010: " + feature.properties.Pop_2010 + " million" +
+                            "<br>Population in 2015: " + feature.properties.Pop_2015 + " million"
+                        );
+                    }
+                }
+            }).addTo(map);
+        })
+        .catch(error => console.error('Error:', error));
 
     </script>
 </body>
