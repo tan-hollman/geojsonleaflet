@@ -62,6 +62,13 @@
 
         map.on('click', onMapClick);
     
+        fetch('map.geojson')
+            .then(response => response.json())
+            .then(data => {
+                L.geoJSON(data).addTo(map);
+            })
+            .catch(error => console.error('Error:', error));
+
     </script>
 </body>
 
